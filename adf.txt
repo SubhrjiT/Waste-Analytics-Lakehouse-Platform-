@@ -1,0 +1,186 @@
+ADF(azure data factory)
+it is platform which we used for orchestration and ETL transformation.
+orchestration - automating the ETL or ELT process.
+
+Components of ADF:
+Pipelines -
+Activities -
+Intergration Runtime -
+Linked Service
+Datasets -
+Dataflow -
+Triggers -
+
+
+what is Integration Runtime?
+It provides compute infrastructure for data movement.
+in adf we have 3 types IR:
+
+Default IR or AutoResolveIR -
+it is used for data movement between cloud to cloud.
+
+Self Hosted Intergration Runtime:
+it is used for data movement between on primesis servers to cloud.
+
+SSIS (sql server integration services) IR - 
+In sql servers 
+we will have ETL pipleines on sql servers we will convert this to SSIS packages 
+and migrate that packages from on servers to cloud.
+
+Pipelines - 
+it is combination of many activities which are bound to together to complete the
+final task flow.
+
+Activities - 
+in adf each activity performs the specific task.
+
+linked services -
+we are storing the connection string information
+
+Datasets -
+it will point out to actual location of the data where it is stored.
+
+Dataflow -
+it is graphical user interface based ETL pipeline creation tool.
+
+Triggers -
+to automate the execution of the pipelines.
+3 types:
+schedules trigger -
+this executes the pipeline run at specific time interval.
+
+event based trigger -
+whenever the particular event happens the pipeline should be executed.
+
+Tumbling windows trigger -
+here we will create the time windows
+
+10 years-1 
+2010 - 2011
+2013 - 2015
+2016 - 2018
+2019 - 2020
+
+Activities -
+Copy Data - 
+it is used to copy the data from source to sink
+
+dataset(adls gen2) -
+<container name>/<folders>/<filenames>
+
+example/bronze/demo/demo1/emp.csv
+
+we have an option of Copy behavior
+flatten hirarchy -
+source
+bronze--->demo--->demo1---->emp.csv,dept.csv
+sink(destination)
+emp.csv
+dept.csv
+
+merge files -
+it simple merges the files
+
+preserve hirarchy - 
+source
+bronze--->demo--->demo1---->emp.csv,dept.csv
+sink
+it will preserve the same structure
+bronze--->demo--->demo1---->emp.csv,dept.csv
+
+Q)you have 100 files and 100 tables and you want to copy the files from source to 
+particular table?
+file1.csv  table1
+file2.csv  table2
+file3.csv  table3
+
+how many copy activity will be required 
+and give the steps to design the pipeline
+
+paramertised dataset -
+this is used to make dataset dynamic so that it can take the mulitple
+items(file or table)
+
+Steps - 
+1 - we have to create a control table(this will help you to map file
+with respective tables)
+employee.csv  ----> emp
+department.csv ----> dept
+
+2 - we will use lookup activity to read the control table.
+
+lookup activity -
+it is used to read the data that is present in file or table.
+
+get metadata activity -
+this activity will give you the metadata information about the file or table.
+field list(metadata information)
+item name,item type,column count
+
+forEach activity -
+it is used to iterate the array elements.
+
+set variable activity -
+it is used to give the value to the variable.
+
+
+Q) in one folder you have different format of files(csv,json,xlsx)
+destination you have that format(csv,json,excel)
+
+you want to copy the csv file to csv folder,
+json file to json folder,excel file to excel folder
+
+you have to design the pipeline for this
+
+fileName = ['aaa.csv','bbb.json','ccc.xlsx']
+for i in fileName:
+  if i.spilt('.')[1] == 'csv':
+     print('this is csv file',i)
+  elif i.spilt('.')[1] == 'json':
+     print('this is json file ',i)
+  elif i.spilt('.')[1] == 'xlsx': 
+     print('this is excel file ',i)
+
+if <condition>:
+   go here
+else:
+
+Q) can you use ForEach Activity Inside ForEach Activity,But still you i want
+use this how can i achieve this.
+
+we cannot use forEach inside forEach acitivity
+we can achieve this by using execute pipleine acitivty
+
+execute pipleine acitivty -
+it is used to call(run) one pipeline inside another pipeline.
+
+script acitivity - 
+if you want to use DML operations on any database table 
+
+Stored Procedure -
+used to call the stored procedure created in database.
+
+Notebook Acitivity -
+it is used to call(run) the notebook from azure databricks
+
+How to use/access the output of the ADF activity activity into the azure
+databricks notebook?
+
+we want to create the dataframe of the table present in azure sql database
+
+
+What is difference between parameter and variable in pipelines?
+
+parameter - these cannot be changed while the runtime of the pipeline.
+
+variable -  we can change the value of the variable while the runtime.
+
+what are types of parameters in adf?
+
+parameters - these are accessible by only that particular pipeline where it 
+is created.
+
+global parameters - these are accessible by all the available pipelines.
+
+
+

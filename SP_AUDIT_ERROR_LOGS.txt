@@ -1,0 +1,139 @@
+CREATE OR ALTER PROCEDURE [CONFIGURATION].[INSERT_PIPELINE_AUDIT_LOG] @Objectname           [NVARCHAR](500) NULL,
+                                                      @Source                      [NVARCHAR](500) NULL,
+                                                      @Destination_lakehouse       [NVARCHAR](500) NULL,
+                                                      @Targetlayer                 [NVARCHAR](500) NULL,
+                                                      @Totalrecordscount           [INT] NULL,
+                                                      @Updaterecordscount          [INT] NULL,
+                                                      @Insertrecordcount           [INT] NULL,
+                                                      @Pipeline_Name               [NVARCHAR](500) NULL,
+                                                      @RunId                       [NVARCHAR](500) NULL,
+                                                      @Runstarttime                [NVARCHAR](500) NULL,
+                                                      @Runendtime                  [NVARCHAR](500) NULL,
+                                                      @TriggerName                 [NVARCHAR](500) NULL,
+                                                      @TriggerType                 [NVARCHAR](500) NULL,
+                                                      @TriggerTime                 [NVARCHAR](500) NULL,
+                                                      @Dataextractionquery         [NVARCHAR](Max) NULL,
+                                                      @Modifiedon                  [NVARCHAR](500) NULL,
+                                                      @Modifiedby                  [NVARCHAR](500) NULL                 
+                                                
+AS
+BEGIN
+
+    DECLARE @NextId INT;
+
+    -- Get the max ID from the 
+    SELECT @NextId = ISNULL(MAX(ID), 0) + 1 FROM [CONFIGURATION].[PROCESSED_AUDIT_LOGS];
+
+    -- Insert the new row with the calculated ID
+    INSERT INTO [CONFIGURATION].[PROCESSED_AUDIT_LOGS](
+        [ID], [OBJECT_NAME], [SOURCE], [DESTINATION], [TARGET_LAYER], [TOTAL_RECORDS_COUNT],
+        [UPDATE_RECORDS_COUNT], [INSERT_RECORDS_COUNT], [PIPELINE_NAME], [PIPELINE_RUNID],
+        [RUN_START_TIME], [RUN_END_TIME], [TRIGGER_NAME],
+        [TRIGGER_TYPE], [TRIGGER_TIME], [DATA_EXTRACTION_QUERY], [MODIFIED_ON],
+        [MODIFIED_BY]
+    )
+    VALUES (
+        @NextId,@Objectname,@Source,@Destination_lakehouse,
+                                                      @Targetlayer  ,
+                                                      @Totalrecordscount ,
+                                                      @Updaterecordscount ,
+                                                      @Insertrecordcount  ,
+                                                      @Pipeline_Name ,
+                                                      @RunId    ,
+                                                      @Runstarttime ,
+                                                      @Runendtime ,
+                                                      @TriggerName ,
+                                                      @TriggerType ,
+                                                      @TriggerTime ,
+                                                      @Dataextractionquery ,
+                                                      @Modifiedon  ,
+                                                      @Modifiedby   
+    );
+END
+
+-----------------------------------------------------------------------------------------------------
+
+
+CREATE OR ALTER PROCEDURE [CONFIGURATION].[INSERT_PIPELINE_ERROR_LOG] @Pipeline_Name               [NVARCHAR](500) NULL,
+
+                                                      @RunId                       [NVARCHAR](500) NULL,
+
+                                                      @Source                      [NVARCHAR](500) NULL,
+
+                                                      @Destination                 [NVARCHAR](500) NULL,
+
+                                                      @TriggerType                 [NVARCHAR](500) NULL,
+
+                                                      @TriggerId                   [NVARCHAR](500) NULL,
+
+                                                      @TriggerName                 [NVARCHAR](500) NULL,
+
+                                                      @TriggerTime                 [NVARCHAR](500) NULL,
+
+                                                      @No_ParallelCopies           [INT] NULL,
+
+                                                      @copyDuration_in_secs        [NVARCHAR](500) NULL,
+
+                                                      @effectiveIntegrationRuntime [NVARCHAR](500) NULL,
+
+                                                      @Source_Type                 [NVARCHAR](500) NULL,
+
+                                                      @Sink_Type                   [NVARCHAR](500) NULL,
+
+                                                      @Execution_Status            [NVARCHAR](500) NULL,
+
+                                                      @ErrorDescription            [NVARCHAR](MAX) NULL,
+
+                                                      @ErrorCode                   [NVARCHAR](500) NULL,
+
+                                                      @ErrorLoggedTime             [NVARCHAR](500) NULL,
+
+                                                      @FailureType                 [NVARCHAR](500) NULL,
+
+                                                      @Addedon                     [NVARCHAR](500) NULL,
+
+                                                      @AddedBy                     [NVARCHAR](500)
+
+AS
+
+BEGIN
+ 
+    DECLARE @NextId INT;
+ 
+    -- Get the max ID from the 
+
+    SELECT @NextId = ISNULL(MAX(ID), 0) + 1 FROM [CONFIGURATION].[PROCESSED_ERROR_LOGS];
+ 
+    -- Insert the new row with the calculated ID
+
+    INSERT INTO [CONFIGURATION].[PROCESSED_ERROR_LOGS](
+
+        [ID], [PIPELINE_NAME], [PIPELINE_RUNID], [SOURCE], [DESTINATION], [TRIGGER_TYPE],
+
+        [TRIGGER_ID], [TRIGGER_NAME], [TRIGGER_TIME], [NO_PARELLEL_COPIES],
+
+        [COPY_DURATION_IN_SECS], [EFFECTIVE_INTEGRATION_RUNTIME], [SOURCE_TYPE],
+
+        [SINK_TYPE], [EXECUTION_STATUS], [ERROR_DESCRIPTION], [ERROR_CODE],
+
+        [ERROR_LOGGED_TIME], [FAILURE_TYPE], [ADDED_ON], [ADDED_BY]
+
+    )
+
+    VALUES (
+
+        @NextId, @Pipeline_Name, @RunId, @Source, @Destination, @TriggerType,
+
+        @TriggerId, @TriggerName, @TriggerTime, @No_ParallelCopies,
+
+        @copyDuration_in_secs, @effectiveIntegrationRuntime, @Source_Type,
+
+        @Sink_Type, @Execution_Status, @ErrorDescription, @ErrorCode,
+
+        @ErrorLoggedTime, @FailureType,@Addedon ,@AddedBy
+
+    );
+
+END
+
+ 

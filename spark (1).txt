@@ -1,0 +1,525 @@
+link - portal.azure.com
+
+Spark - 
+it is Big data processing engine which has its own compute infrastructure.
+in this data is processed in its memory.
+
+why we use spark?
+in built features
+- catalyst optimiser
+- AQE(Adaptive Query Engine)
+- Photon Engine
+
+Spark Architecture:
+In spark we have 3 main components
+1) Driver Program
+2) Cluster Manager
+3) Worker Nodes
+
+1) Driver Program - 
+It is an entry point to spark engine.
+In this we create SparkSession which creates the Jobs and stages
+
+what is difference between sparkContext and SparkSession?
+sparkContext - it is used to create the RDDs
+SparkSession - it is combination sparkContext,sqlContext,hiveContext,
+StreamingContext.
+
+2) Cluster Manager:
+Cluster manager calculates and allot the resources(How much RAM,no of cores) 
+required to process the given jobs or stages.
+
+3) Worker Nodes:
+Cluster manager will launch the executors on Worker Nodes in executors 
+tasks will get processed and the output is send to the driver program.
+
+Jobs -----> Stages ------> Tasks
+
+In spark architecture we have three components driver program,cluster manager,
+worker nodes whenever we give any job to the driver program its stages and task 
+are created and this is given to cluster manager,cluster manager will calculates
+the resources reuqired to complete tasks and than launch the executors on worker node.
+On worker nodes we will be having executors where the actual processing of tasks will takes place
+and its ouput is send to driver program.
+
+RDD(Resilient Distributed Dataset)
+- whatever the data we give this data is distributed(according to the block size of 
+128mb) and than it is processed parallely.
+- fundamental structure of spark.
+- fault tolerence
+Lineage Graph and DAG(directed acyclic graph)
+- it will not have schema.
+
+Transformation and Action in spark?
+
+Transformation - 
+Operation performed on RDD to get the new RDD is called Transformations.
+two types of transformation - 
+Narrow Transformation -
+In Narrow Transformations there is no Shuffling of Data amoung the partitions.
+example -  map,flapMap
+Wide Transformation -
+In wide Transformations there is Shuffling of Data amoung the partitions.
+example - joins,groupByKey
+
+Actions - 
+It triggers the execution of transformations.
+example - show(),count(),SaveAsTable()
+
+why Spark is called as lazy evaluation?
+until and unless action is called transformations are not executed.
+
+data = [(1,'AAA'),(2,'BBB')]
+
+syntax
+rdd = sc.parallelize(data)
+rdd.collect()
+
+from pyspark.sql import *
+
+As RDD was not in structured format(doesnt have the schema)
+Dataframe - it is having the schema
+syntax:
+df = spark.createDataFrame(<data>,[])
+
+spark = SparkSession.builder.appName("<name>").getOrCreate()
+
+what is difference between RDD and Dataframe?
+RDD will not have schema whereas dataframe have schema.
+
+How to read the csv file and create dataframe?
+csv (comma seperated files)
+id,name,salary
+1,AAA,2000
+2,BBB,3000
+
+inferSchema - it will automatically detect the datatypes of the columns
+
+HOw to read the json file?
+df = spark.read.format("json").option("multiline","true").load(<path>)
+we have to flatten this json.
+in json we have two datatypes
+1 - ArrayType - to flatten the arrayType we will use explode function.
+2 - StructType - to flatten the structType we will use parent child relationship.
+
+{'id':120,
+'name':'AAA',
+'Salary':12000,
+'dept Name':['IT','FIN'],
+'address':{'flat No':123,
+           'street Name':'AAA',
+		   'City':'Hyderabad'}
+}
+
+df = spark.read.format()
+df = df.withColumn("dept_Name',explode('dept Name'))
+df = df.withColumn("flat_no",address.`flat No`)\
+.withColumn("street_name",address.`street Name`)
+
+How to Handle the Nulls in Dataframe?
+to handle Nulls.
+fillna() -  this replace all the null values present in dataframe 
+with the given value.
+100 columns in that there maybe column diff datatypes
+int,float,string
+fillna('Na')
+we give the input as the dictionary
+df = df.fillna({'normalizedlosses':0,'Name':'NA'}
+
+How to Handle the Duplicates?
+two ways to handle the duplicates
+1 - distinct() - it will consider all the columns for dropping the duplciates.
+2 - dropDuplicate() - here we can give column as paramters so it will drop the 
+duplicates based on that column names.
+id,name,salary
+1,AAA,2000
+2,BBB,3000
+2,BBB,4000
+2,BBB,5000
+
+df.dropDuplciates(['id','name'])
+--- which record will be dropped from given data.
+id,name,salary
+1,AAA,2000
+2,BBB,3000
+
+How to Rename the Column?
+for renaming the column we use 
+withColumnRenamed(<old column name>,<new column name>)
+
+engineid to engine_id
+
+How to know the datatypes of the columns in dataframe?
+printSchema() -  it is used to know the datatypes.
+schema() -  this will give you the datatypes of column in array
+
+How to get all the column of dataframe as a list?
+<dataframe name>.columns - to get columns of dataframe as a list.
+
+what is difference between tempView and globalTempView?
+
+tempView - this view will be available till the session is active.
+syntax - 
+df.createOrReplaceTempView('<name of the view>')
+
+GlobalTempView - this view will be available even after the 
+session is terminated.it is stored in database global_temp.
+syntax-
+df.createOrReplaceGlobalTempView('<name of the view>')
+
+select * from global_temp.<view name>
+
+what is difference between lineage graph and DAG?
+lineage graph - the graph created before the action is called 
+that graph is called lineage graph.
+
+DAG(directed Acyclic Graph) - these are created while executing the 
+transformation.
+RDD1 ---T1----RDD2-----T2------RDD3.
+
+what is catalyst Optimiser?
+it is s rule based optimisation engine present in spark.
+steps:
+1- logical execution plan
+it will create logical plan.
+2- physical execution plan
+it will take this logical plan and create one or many physical plans.
+3- cost based optimisation
+these physical plans are created on that 
+cost based optimisation will be performed.
+it will calculate the cost of each physical plan and select the physical plan
+whose cost is less.
+4- rule based optimisation
+on selected physical plan rules based optimisation will be done.
+pushfilter - this filtering the data at source.
+column pruning - reading the required columns.
+partition prunning - reading the required partitions.
+
+AQE(adaptive query engine)?
+
+what is difference between catalyst optimiser and AQE?
+catalyst optimiser will optimise the queries before its execution 
+whereas AQE will optimise the queries during the runtime.
+
+what is Jobs,stages,tasks?
+tell me number of stages and tasks.
+
+narrow and wide transformation-
+whatever the narrow transformation 
+we are doing that all will create 1 stage. 
+whatever the wide transformation are present each wide transfromation will
+add up to 1 stage.
+
+4 narrow and 10 wide = 11 stages.
+df.rdd.getNumPartitions() -  code to get number of partitions
+number of partitions = number of tasks.
+df.filter().map().group().window()
+
+default languages supported by pyspark?
+python
+sql
+scala
+R
+
+Using Group BY in pyspark?
+df.groupBy(<col names>)
+
+can we use window function without partition By?
+yes we can use.
+order BY is required.
+
+Applying the join in pyspark?
+syntax:df1,df2
+joinDF = df1.join(df2,<on condition>,'<name of the join>')
+joinDF = df1.join(df2,df1.id==df2.id,'inner')
+
+what is default join in pyspark?
+inner join
+left join
+right join
+full outer
+left semi join or semi join
+left anti join or anti join
+empDF
+id,name,salary
+1,AAA,1000
+2,BBB,2000
+3,CCC,3000
+4,DDD,4000
+
+deptDF
+id,dept_Name
+1,IT
+2,HR
+
+joinDF = empDF.join(deptDF,empDF.id==deptDF.id,'semi)
+leftsemi -  it will take the common records from both the dataframe but it shows
+only left dataframe records.
+result for left semi will be as below:
+id,name,salary
+1,AAA,1000
+2,BBB,2000
+
+joinDF = empDF.join(deptDF,empDF.id==deptDF.id,'anti')
+leftanti -  it will take the non-common records from both the dataframe but it shows
+only left dataframe records.
+result for left anti will be as below:
+id,name,salary
+3,CCC,3000
+4,DDD,4000
+
+there is no concept of right semi and right anti.
+right semi join-
+right anti join-
+
+in azure storage account(adls(azure data lake storage) gen1 and gen2)
+adls gen1(flatten namespace) Vs adls gen2(hireraarical namespace)
+
+How to connect to adls gen2 from the databricks?
+spark.conf.set("fs.azure.account.key.<storage account name>.dfs.core.windows.net","<access keys>")
+
+to list the files in containers
+abfss://<container name>@<storage account name>.dfs.core.windows.net/
+
+fs.azure.account.key.logisticestorageaccount.dfs.core.windows.net
+
+fs - file system
+dfs - distributed file system
+core.windows.net - domain
+
+abfss://<container name>@<storage account name>.dfs.core.windows.net/<folder name>/<folder name>/<file name> (absolute path)
+
+abfss - azure blob file system secure
+
+dbutils - databricks utilities
+
+dbutils.fs(file system)
+
+cp - copy -> it is used to copy the file from source to destination
+dbutils.fs.cp(<source path>,<destination path>,recurse = True)
+
+we can access the files in storage account using two types:
+access keys - it is at storage account level (RBAC(role based access control))
+sas(shared access signature) token - we can create the sas token at storage account
+level,container level,folder level and file level and here we can specify the
+permissions(read,write,delete)
+
+what is key vault?
+it is service in azure where we can store the secrets.
+
+How to access the secrets into to azure databricks notebooks?
+by creating the scope we can access the secrets from azure key vaults.
+
+How to create a mount point?
+dbfs(databricks file system)
+location will be of azure storage account
+/mnt/ - dbfs
+
+abfss://<cintianer name>@<stg acc name>.dfs
+
+#To create a mount point
+dbutils.fs.mount(
+    source = "wasbs://logistic@logisticestorageaccount.blob.core.windows.net",
+    mount_point = "/mnt/<any name>",
+    extra_configs = {"fs.azure.account.key.logisticestorageaccount.blob.core.windows.net":access_key}
+)
+
+#to unmount the mount point
+dbutils.fs.unmount('<name of the mount point>')
+
+what are the optimisation techniques you have used in spark?
+delta tables:
+advanstages of delta table:
+1 - it follows ACID transactions
+2 - it can do schema evolution - option("mergeSchema","true")
+3 - time travel
+whatever the transaction are done on delta tables each 
+transaction is stored as version 
+important commands to do time travel:
+to see the version history of the delta table
+#describe history <delta table name> 
+
+to see the data in particular version
+#select * from <delta table name>@v<version name>
+or
+#select * from <delta table name> version as of <version name>
+
+to restore the delta table to particular version
+#restore table <delta table name> version as of <version name>
+
+using the timestamp
+to see the data in particular version using the timestamp
+#select * from <delta table name> timestamp as of <timestamp>
+
+to restore the delta table to particular version using the timestamp
+#restore table <delta table name> timestamp as of <timestamp>
+
+How this delta tables are able to do time travel?
+delta table can do time travel using this folder _delta_logs
+we will have 3 files
+.json - this file will have the data of that version. 
+.crc(cyclic redundancy check) - this will maintain the data integrity
+.checkpoint.parquet - this will maintain the version history 
+of the delta table.
+4 - it supports merge upsert
+id,name,salary
+1,AAA,5000
+2,BBB,4000
+
+2nd
+id,name,salary
+1,AAA,7000
+3,CCC,6000
+
+update + insert -
+id,name,salary
+1,AAA,7000
+2,BBB,4000
+3,CCC,6000
+
+How to create the delta table at external location?
+%sql
+create table if not exists <table name>
+using delta
+location '<external location>'
+
+2 - using of cache and persist?
+cache() - here we cannot give storage level parameter,by default its 
+storage level parameter is MEMORY_ONLY.
+df.cache()
+
+persist() - here we can pass the storage level parameter(SLP).
+types of SLP
+MEMORY_ONLY
+MEMOERY_ONLY_SER
+MEMORY_AND_DISC_ONLY_SER
+MEMORY_AND_DISC_ONLY
+DISC_ONLY
+df.persist(Storage.Level.MEMORY_ONLY)
+
+to remove the cached or perssisted dataframe?
+df.unpersist()
+
+3 - using coalesce instead of repartition 
+to reduce the number of partitions?
+
+coalesce - you can reduce the partitions using this coalesce,
+you cannot increase the partitions using this.In colesce there is no shuffling
+of data it will simple merge the adjacent partitions.
+
+
+drawback of using coalesce?
+it can cause data skewness
+
+data skewness - 
+when there is unequal size of partitions and the processing of 
+partiitons is taking time this is called as data skewness.
+
+How to overcome the data skewness?
+to handle the data skewness we will use the salting technique.
+salting technique-
+we will add random hash values(salts) to primary key and create new primary key and 
+again do the partitioning using newly  created primary key once this is processed 
+newly generated primary key is dropped.
+
+
+repartition -  this can increase and decrease the partitions.In repartiton
+there is shuffling of data.
+
+if i increase the partitions using the coalesce what will happen wether it will
+increase the partition or it will simply execute without giving error or increasing the
+partition or it will throw an error?
+it will simply execute without giving error and without increasing the
+partition.
+
+magic commands:
+%run
+%sql
+%scala
+%r
+
+How to call one notebook inside another notebook?
+%run <notebook path>
+
+How to you can parameterised the notebook or make your notebook dynamic?
+widgets
+combobox - 
+dbutils.widgets.combobox("<name of the widget>","<default value>",["value1","value2"],"<label>")
+dbutils.widgets.combobox("filePath",
+"abfss://<1223>@<abc>.dfs.core.windows.net/bronze",
+['abfss://<1223>@<abc>.dfs.core.windows.net/bronze','abfss://<1223>@<abc>.dfs.core.windows.net/silver'],
+'select the file path')
+
+How to access the values of the widgets or parameter?
+dbutils.widgets.get('<widget name>')
+
+using of broadcast join?
+df1(20mb) and df2(8mb)
+broadcast join -
+sending or copying the small dataframe to all the executors for performing the 
+join it helps in optimising the join.
+df1 and df2
+dfJoin = df1.join(broadcast(df2),df1.id==df2.id,'inner')
+
+broadcast variable?
+variable - we store the memory location of the value given to variable
+in this variable we create will be broadcasted to all the executors.
+b_var = broadcast(df2)
+dfJoin = df1.join(b_var,df1.id==b_var.id,'inner')
+
+what are the types of cluster in spark?
+1 - All purpose cluster 
+2 - Job Cluster
+3 - Instance Pool Cluster
+
+1 - All purpose cluster
+this cluster is manually created according to required configuration.here we can 
+decide the configuration(databricks runtime version,worker node configuration)
+of the cluster.
+
+2 - Job Cluster
+you cannot create this manually, whenever you submit a job to process that job
+this cluster will be created automatically once the processing of that is completed
+this cluster will be terminated automatically.
+
+3 - Instance Pool
+In this pool(10 cluster) of clusters will be available whenever required you 
+can select this pool in this which ever cluster is available will used for processing 
+the job.
+
+How to call one notebook inside another notebook by changing the paramter or 
+parameterised notebook?
+dbutils.notebook.run(<path>,timeout = ,{<parameter name<:<value parameter>})
+
+How to take any ouput value outside the notebook?
+dbutils.notebook.exit(<name of the values>)
+
+How to orchestrate the process in Azure databricks?
+for doing this we create workflows.
+
+what is unity catalog?
+it is centralised data governance tool.
+we can give the permissions on catalog,schema,table
+advanstage:
+- we can define the permissions such that only the required data is exposed to
+ the members or stakeholders.
+-data lineage.
+- it supports all formats(delta,parquet)
+- we can cross share the data amoung the workspaces.
+metastore --->catalog(multiple) -->schemas(under one catalog we can have multiple
+schemas) ---->tables(under one schema we can have multiple tables)
+
+To create Unity Catalog?
+1 - premium azure data bricks
+2 - we create seperate storage account
+3 - we create azure databricks access control
+4 - using this azure databricks access control we provide
+assignment role as storage blob data contributor.
+
+
+
+
+
+
+
+
