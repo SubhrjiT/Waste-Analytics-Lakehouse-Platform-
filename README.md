@@ -61,10 +61,10 @@ Get Metadata Activity,
 Notebook Activity)
       │
       ▼
-OneLake
+   OneLake
       │
       ▼
-Bronze Layer
+  Bronze Layer
 (Raw Delta Tables)
       │
       ▼
@@ -75,12 +75,12 @@ Schema Validation,
 Delta Merge)
       │
       ▼
-Silver Layer
+  Silver Layer
 (Validated Data)
       │
       ▼
-Gold Layer
-(KPI & Reporting Tables)
+  Gold Layer
+(KPI & ReportingTables)
       │
       ▼
 Power BI Dashboards
