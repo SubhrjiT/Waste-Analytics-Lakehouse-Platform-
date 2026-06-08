@@ -47,16 +47,6 @@ Challenges:
 
 This platform addresses these challenges using Microsoft Fabric Lakehouse Architecture.
 
----
-
-# 🏗️ Architecture
-
-## Architecture Diagram
-
-![Waste Analytics Lakehouse Platform Architecture]([ArchitectureDiagram.png])
-
----
-
 ## Architecture Flow
 
 ```text
