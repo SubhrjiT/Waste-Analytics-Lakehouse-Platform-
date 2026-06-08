@@ -43,7 +43,7 @@ The Waste Analytics Lakehouse Platform solves these challenges by creating a cen
 
 ## Architecture Diagram
 
-![Waste Analytics Lakehouse Platform Architecture](architecture/Architecture_Diagram.png)
+![Waste Analytics Lakehouse Platform Architecture](architecture/ArchitectureDiagram.png)
 
 ---
 
