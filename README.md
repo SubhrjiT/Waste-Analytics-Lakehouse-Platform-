@@ -53,7 +53,7 @@ This platform addresses these challenges using Microsoft Fabric Lakehouse Archit
 
 ## Architecture Diagram
 
-![Waste Analytics Lakehouse Platform Architecture](resources/Waste_Analytics_Lakehouse_Architecture.png)
+![Waste Analytics Lakehouse Platform Architecture]([resources/Waste_Analytics_Lakehouse_Architecture.png](https://github.com/SubhrjiT/Waste-Analytics-Lakehouse-Platform-/blob/9d103aef8f0ca693d9b8c82ad2c8824b589b5fa0/Architecture%20%20Diagram.png))
 
 ---
 
