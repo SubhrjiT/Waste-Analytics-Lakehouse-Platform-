@@ -50,49 +50,56 @@ The Waste Analytics Lakehouse Platform solves these challenges by creating a cen
 ## Architecture Flow
 
 ```text
-Source Systems
-      │
-      ▼
-Fabric Data Factory
-(Copy Activity,
-Lookup Activity,
-ForEach Activity,
-Get Metadata Activity,
-Notebook Activity)
-      │
-      ▼
-   OneLake
-      │
-      ▼
-  Bronze Layer
-(Raw Delta Tables)
-      │
-      ▼
-PySpark Notebooks
-(Data Cleansing,
-Deduplication,
-Schema Validation,
-Delta Merge)
-      │
-      ▼
-  Silver Layer
-(Validated Data)
-      │
-      ▼
-  Gold Layer
-(KPI & ReportingTables)
-      │
-      ▼
-Power BI Dashboards
+                    Source Systems
+      ERP | CRM | GPS | CSV | APIs | SQL DB
 
-Monitoring Layer
-─────────────────────
-Audit Logs
-Error Logs
-Record Counts
-Execution Tracking
-─────────────────────
-```
+                           │
+                           ▼
+              Microsoft Fabric Data Factory
+         Pipelines • Dataflows Gen2 • Scheduler
+                           │
+                           ▼
+                     OneLake Storage
+        ┌──────────────────────────────────┐
+        │      Lakehouse (Delta Tables)    │
+        │                                  │
+        │ Bronze (Raw)                     │
+        │        │                         │
+        │        ▼                         │
+        │ Silver (Cleaned)                 │
+        │        │                         │
+        │        ▼                         │
+        │ Gold (Business)                  │
+        └──────────────────────────────────┘
+                 ▲           ▲
+                 │           │
+         Spark Notebooks (PySpark)
+     Delta Merge | DQ | SCD | Incremental Load
+
+                 │
+                 ▼
+          Fabric Warehouse (Optional)
+                 │
+                 ▼
+      Semantic Model (Direct Lake Mode)
+                 │
+                 ▼
+            Power BI Dashboards
+
+---------------------------------------------------
+Cross-cutting Services
+---------------------------------------------------
+✓ Monitoring
+✓ Logging
+✓ Data Quality
+✓ RBAC
+✓ Purview
+✓ CI/CD
+✓ Git Integration
+✓ Deployment Pipelines
+✓ Parameterization
+✓ Metadata
+---
 
 ---
 
