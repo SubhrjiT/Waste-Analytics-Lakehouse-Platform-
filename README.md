@@ -128,60 +128,7 @@ The platform automatically collects data from multiple operational systems, stor
 
 The complete pipeline follows Microsoft's recommended **Medallion Architecture**.
 
-```text
-ERP
-GPS
-SQL Database
-CSV Files
-REST APIs
-IoT Sensors
-
-        │
-
-        ▼
-
-Microsoft Fabric Data Factory
-
-        │
-
-        ▼
-
-Microsoft OneLake
-
-        │
-
-        ▼
-
-Bronze Layer
-(Raw Data)
-
-        │
-
-        ▼
-
-Silver Layer
-(Cleansed Data)
-
-        │
-
-        ▼
-
-Gold Layer
-(Business Data)
-
-        │
-
-        ▼
-
-Power BI Dashboard
-
-        │
-
-        ▼
-
-Business Users
-```
-
+<img src="ArchitectureDiagram.png" width="1000">
 ---
 
 # 🏗️ Architecture
