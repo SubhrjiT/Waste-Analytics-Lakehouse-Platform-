@@ -17,37 +17,36 @@
 
 # 📚 Table of Contents
 
-* Overview
-* Business Story
-* Business Requirements
-* Business Problem
-* Solution Overview
-* Architecture
-* Features
-* Tech Stack
-* Source Systems
-* Data Dictionary
-* Data Flow
-* Medallion Architecture
-* Metadata Driven Framework
-* ETL Workflow
-* PySpark Transformations
-* Delta Lake Features
-* Audit & Error Logging
-* Data Quality Framework
-* Performance Optimization
-* Key KPIs
-* Dashboard
-* Business Insights
-* Key Outcomes
-* Repository Structure
-* Learning Outcomes
-* Challenges
-* Future Enhancements
-* Conclusion
-* Contact
-* Support
-
+- [📌 Overview](#-overview)
+- [📖 Business Story](#-business-story)
+- [🎯 Business Requirements](#-business-requirements)
+- [❗ Business Problem](#-business-problem)
+- [💡 Solution Overview](#-solution-overview)
+- [🏗️ Architecture](#️-architecture)
+- [✨ Features](#-features)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [📂 Source Systems](#-source-systems)
+- [📖 Data Dictionary](#-data-dictionary)
+- [🔄 Data Flow](#-data-flow)
+- [🏗️ Medallion Architecture](#️-medallion-architecture)
+- [⚙️ Metadata Driven Framework](#️-metadata-driven-framework)
+- [🔄 ETL Workflow](#-etl-workflow)
+- [🔥 PySpark Transformations](#-pyspark-transformations)
+- [🗄️ Delta Lake Features](#️-delta-lake-features)
+- [📋 Audit & Error Logging Framework](#-audit--error-logging-framework)
+- [✅ Data Quality Framework](#-data-quality-framework)
+- [⚡ Performance Optimization](#-performance-optimization)
+- [📊 Key KPIs](#-key-kpis)
+- [📈 Dashboard](#-dashboard)
+- [💼 Business Insights](#-business-insights)
+- [🎯 Key Outcomes](#-key-outcomes)
+- [📂 Repository Structure](#-repository-structure)
+- [🎓 Learning Outcomes](#-learning-outcomes)
+- [🚧 Challenges](#-challenges)
+- [🚀 Future Enhancements](#-future-enhancements)
+- [📝 Conclusion](#-conclusion)
+- [📧 Contact](#-contact)
+- [⭐ Support](#-support)
 ---
 
 # 📌 Overview
