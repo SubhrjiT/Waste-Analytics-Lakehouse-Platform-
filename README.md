@@ -172,62 +172,6 @@ The complete solution provides:
 * Centralized audit and error logging.
 * Power BI dashboards for business users.
 
-### High-Level Solution Flow
-
-```text
-CSV Files
-REST APIs
-IoT Sensors
-GPS System
-ERP
-SQL Database
-
-        │
-
-        ▼
-
-Microsoft Fabric Data Factory
-
-        │
-
-        ▼
-
-OneLake Storage
-
-        │
-
-        ▼
-
-Bronze Layer
-(Raw Data)
-
-        │
-
-        ▼
-
-Silver Layer
-(Cleansed & Validated)
-
-        │
-
-        ▼
-
-Gold Layer
-(Business Ready)
-
-        │
-
-        ▼
-
-Power BI Dashboards
-
-        │
-
-        ▼
-
-Business Decision Making
-```
-
 # 🏗️ Architecture
 
 The Waste Analytics Lakehouse Platform is designed using **Microsoft Fabric Lakehouse Architecture** to build a centralized, scalable, and enterprise-ready analytics platform.
